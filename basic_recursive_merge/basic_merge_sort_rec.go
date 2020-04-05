@@ -22,7 +22,7 @@ func merge(arr []int, l, m, r int) {
 	copy(arrR, arr[m+1:r+1])
 
 	//merge the temporary arrays into the main slice
-	i, j, k := 0, 0, 0
+	i, j, k := 0, 0, l
 	for i < lenL && j < lenR {
 		if arrL[i] <= arrR[j] {
 			arr[k] = arrL[i]
