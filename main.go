@@ -14,5 +14,4 @@ func main() {
 	brm.MergeSort(slice1)
 
 	fmt.Println("Slice1 after: ", slice1)
-
 }
