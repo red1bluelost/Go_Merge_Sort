@@ -1,6 +1,7 @@
 package basic_recursive_merge
 
 import (
+	"math/rand"
 	"reflect"
 	"testing"
 )
@@ -31,5 +32,27 @@ func TestMergeSort(t *testing.T) {
 	MergeSort(check)
 	if !reflect.DeepEqual(check, expect) {
 		t.Errorf("Fourth sort should be %v was %v", expect, check)
+	}
+}
+
+func randomArrayOfLen(n int) []int {
+	arr := make([]int, n)
+	rand.Seed(0) //int64(time.Now().Nanosecond()))
+	for len(arr) < n {
+		arr = append(arr, rand.Int())
+	}
+	return arr
+}
+
+func BenchmarkRandomArrayOfLen(b *testing.B) {
+	for i := 2; i < b.N; i++ {
+		randomArrayOfLen(i)
+	}
+}
+
+func BenchmarkMergeSort(b *testing.B) {
+	for i := 2; i < b.N; i++ {
+		arr := randomArrayOfLen(i)
+		MergeSort(arr)
 	}
 }
