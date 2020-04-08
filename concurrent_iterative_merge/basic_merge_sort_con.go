@@ -1,4 +1,18 @@
-package basic_iterative_merge
+package concurrent_iterative_merge
+
+import (
+	"math/rand"
+	"sync"
+)
+
+func RandomArrayOfLen(n int) []int {
+	arr := make([]int, n)
+	rand.Seed(0) //int64(time.Now().Nanosecond()))
+	for len(arr) < n {
+		arr = append(arr, rand.Int())
+	}
+	return arr
+}
 
 func MergeSort(arr []int) {
 	mergeSortIter(arr, len(arr))
@@ -13,13 +27,19 @@ func min(a, b int) int {
 }
 
 func mergeSortIter(arr []int, n int) {
+	var wg sync.WaitGroup
 	for blockSize := 1; blockSize <= n-1; blockSize *= 2 {
 		for offset := 0; offset < n-1; offset += 2 * blockSize {
-			middle := min(offset+blockSize-1, n-1)
-			upper := min(offset+2*blockSize-1, n-1)
+			wg.Add(1)
+			go func(o, b int) {
+				defer wg.Done()
+				middle := min(o+b-1, n-1)
+				upper := min(o+2*b-1, n-1)
 
-			merge(arr, offset, middle, upper)
+				merge(arr, o, middle, upper)
+			}(offset, blockSize)
 		}
+		wg.Wait()
 	}
 }
 

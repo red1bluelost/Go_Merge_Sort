@@ -6,26 +6,32 @@ import (
 
 	bim "github.com/red1bluelost/Go_Merge_Sort/basic_iterative_merge"
 	brm "github.com/red1bluelost/Go_Merge_Sort/basic_recursive_merge"
+	cim "github.com/red1bluelost/Go_Merge_Sort/concurrent_iterative_merge"
 )
 
 func main() {
-	fmt.Println("Hello World")
+	size := 1 << 24 //don't go over 28 or pushing it
+	slc := cim.RandomArrayOfLen(size)
+	slcCopy := make([]int, size)
+	slcCopy2 := make([]int, size)
+	copy(slcCopy, slc)
+	copy(slcCopy2, slc)
 
+	fmt.Println("Starting concurrent process")
 	start := time.Now()
-	slice1 := []int{8, 7, 6, 5, 4, 3, 2, 1}
-	fmt.Println("Slice1 before:", slice1)
-
-	brm.MergeSort(slice1)
-
-	fmt.Println("Slice1 after: ", slice1)
-
+	cim.MergeSort(slc)
 	elapsed := time.Since(start)
-	fmt.Printf("Binomial took %s\n", elapsed)
+	fmt.Printf("Concurrent iterative took %s\n", elapsed)
 
-	slice2 := []int{8, 7, 6, 5, 4, 3, 2, 1}
-	fmt.Println("Slice2 before:", slice2)
+	fmt.Println("Starting basic iterative process")
+	start = time.Now()
+	bim.MergeSort(slcCopy)
+	elapsed = time.Since(start)
+	fmt.Printf("Basic iterative took %s\n", elapsed)
 
-	bim.MergeSort(slice2)
-
-	fmt.Println("Slice2 after: ", slice2)
+	fmt.Println("Starting basic recursive process")
+	start = time.Now()
+	brm.MergeSort(slcCopy2)
+	elapsed = time.Since(start)
+	fmt.Printf("Basic recursive took %s\n", elapsed)
 }

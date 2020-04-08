@@ -1,7 +1,6 @@
-package basic_iterative_merge
+package concurrent_iterative_merge
 
 import (
-	"math/rand"
 	"reflect"
 	"testing"
 )
@@ -35,24 +34,17 @@ func TestMergeSort(t *testing.T) {
 	}
 }
 
-func randomArrayOfLen(n int) []int {
-	arr := make([]int, n)
-	rand.Seed(0) //int64(time.Now().Nanosecond()))
-	for len(arr) < n {
-		arr = append(arr, rand.Int())
-	}
-	return arr
-}
+
 
 func BenchmarkRandomArrayOfLen(b *testing.B) {
 	for i := 2; i < b.N; i++ {
-		randomArrayOfLen(i)
+		RandomArrayOfLen(i)
 	}
 }
 
 func BenchmarkMergeSort(b *testing.B) {
 	for i := 2; i < b.N; i++ {
-		arr := randomArrayOfLen(i)
+		arr := RandomArrayOfLen(i)
 		MergeSort(arr)
 	}
 }
