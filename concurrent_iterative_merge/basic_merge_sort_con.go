@@ -1,29 +1,13 @@
 package concurrent_iterative_merge
 
 import (
-	"math/rand"
 	"sync"
+	u "github.com/red1bluelost/Go_Merge_Sort/utils"
 )
 
-func RandomArrayOfLen(n int) []int {
-	arr := make([]int, n)
-	rand.Seed(0) //int64(time.Now().Nanosecond()))
-	for len(arr) < n {
-		arr = append(arr, rand.Int())
-	}
-	return arr
-}
 
 func MergeSort(arr []int) {
 	mergeSortIter(arr, len(arr))
-}
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	} else {
-		return b
-	}
 }
 
 func mergeSortIter(arr []int, n int) {
@@ -33,8 +17,8 @@ func mergeSortIter(arr []int, n int) {
 			wg.Add(1)
 			go func(o, b int) {
 				defer wg.Done()
-				middle := min(o+b-1, n-1)
-				upper := min(o+2*b-1, n-1)
+				middle := u.Min(o+b-1, n-1)
+				upper := u.Min(o+2*b-1, n-1)
 
 				merge(arr, o, middle, upper)
 			}(offset, blockSize)

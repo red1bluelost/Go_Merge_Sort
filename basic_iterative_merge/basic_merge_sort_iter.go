@@ -1,22 +1,16 @@
 package basic_iterative_merge
 
+import u "github.com/red1bluelost/Go_Merge_Sort/utils"
+
 func MergeSort(arr []int) {
 	mergeSortIter(arr, len(arr))
-}
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	} else {
-		return b
-	}
 }
 
 func mergeSortIter(arr []int, n int) {
 	for blockSize := 1; blockSize <= n-1; blockSize *= 2 {
 		for offset := 0; offset < n-1; offset += 2 * blockSize {
-			middle := min(offset+blockSize-1, n-1)
-			upper := min(offset+2*blockSize-1, n-1)
+			middle := u.Min(offset+blockSize-1, n-1)
+			upper := u.Min(offset+2*blockSize-1, n-1)
 
 			merge(arr, offset, middle, upper)
 		}
