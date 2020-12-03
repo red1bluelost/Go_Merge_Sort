@@ -7,11 +7,12 @@ import (
 	bim "github.com/red1bluelost/Go_Merge_Sort/basic_iterative_merge"
 	brm "github.com/red1bluelost/Go_Merge_Sort/basic_recursive_merge"
 	cim "github.com/red1bluelost/Go_Merge_Sort/concurrent_iterative_merge"
+	u "github.com/red1bluelost/Go_Merge_Sort/utils"
 )
 
 func main() {
 	size := 1 << 24 //don't go over 28 or pushing it
-	slc := cim.RandomArrayOfLen(size)
+	slc := u.RandomArrayOfLen(size)
 	slcCopy := make([]int, size)
 	slcCopy2 := make([]int, size)
 	copy(slcCopy, slc)
